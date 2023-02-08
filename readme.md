@@ -8,6 +8,7 @@ code, and create a summary file containing this data.
 ## Technologies Required
 
 - [Node.js](https://nodejs.org/en/) - back-end JavaScript runtime environment
+- The task-provided CSVs are in an assets folder in the directory
 
 ## Checking the Answer
 

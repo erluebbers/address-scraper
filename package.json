@@ -2,7 +2,7 @@
   "name": "address-scraper",
   "version": "1.0.0",
   "description": "dose challenge",
-  "main": "app2.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "test": "test"

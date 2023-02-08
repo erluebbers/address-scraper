@@ -1,7 +1,6 @@
 import { createReadStream,appendFileSync,existsSync } from "fs";
 import { createInterface } from "readline";
 
-
 function compileRawZips(csvPath) {
     let data = []
     const stream = createReadStream(csvPath);
@@ -17,7 +16,7 @@ function compileRawZips(csvPath) {
       for (let i = 0; i < data.length; i++) {
         csvContent += data[i] + '\n';
       };
-      appendFileSync("./rawZips.csv", csvContent); // Turn data array into csv of raw zip codes
+      appendFileSync("./rawZips.csv", csvContent); // Turn data array into csv of raw zip codes from all docs
     })
 }
 

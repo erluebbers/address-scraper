@@ -2,12 +2,6 @@ import { createReadStream,appendFileSync,existsSync } from "fs";
 import { createInterface } from "readline";
 
 
-function createHeaders() {
-  let zipHeaders = "Zip_Code,Customer_Count\n"
-  appendFileSync("./SUMMARYCOUNT.csv", zipHeaders)
-}
-
-
 function compileRawZips(csvPath) {
     let data = []
     const stream = createReadStream(csvPath);
@@ -15,7 +9,7 @@ function compileRawZips(csvPath) {
 
     reader.on("line", row => {
       let splitRow = row.split(",")
-      data.push(splitRow[7])
+      data.push(splitRow[7]) // Push Zip code from each provided csv row into data array
     });
 
     reader.on("close", () => {
@@ -23,38 +17,38 @@ function compileRawZips(csvPath) {
       for (let i = 0; i < data.length; i++) {
         csvContent += data[i] + '\n';
       };
-
-      appendFileSync("./rawZips.csv", csvContent);
+      appendFileSync("./rawZips.csv", csvContent); // Turn data array into csv of raw zip codes
     })
 }
 
+
 function sortZipCSV(csvPath) {
-    let storage = {}
+    let countStorage = {} // Create hash table of zip code values and associated customer counts
     const stream = createReadStream(csvPath);
     const reader = createInterface({ input: stream });
 
     reader.on("line", row => {
       let stringRow = row.toString();
-      if (storage[stringRow]) {
-        storage[stringRow] += 1;
+      if (countStorage[stringRow]) {
+        countStorage[stringRow] += 1;
       }
       else {
-        storage[stringRow] = 1;
+        countStorage[stringRow] = 1;
       }
     });
 
     reader.on("close", () => {
       let csvContent = '';
-      Object.entries(storage).forEach(row => {
+      Object.entries(countStorage).forEach(row => {
         csvContent += row.join(',') + '\n';
       })
-      appendFileSync("./SUMMARYCOUNT.csv", csvContent);
+      appendFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent); // Convert Storage table into final csv summary doc
     })
 }
 
+
 function createSummaryCount() {
   if (!existsSync("./rawZips.csv") && !existsSync("./SUMMARYCOUNT.csv")) {
-    createHeaders();
     for (let i = 0; i < arguments.length; i++) {
       compileRawZips(arguments[i])
     }
@@ -63,7 +57,7 @@ function createSummaryCount() {
     }, '2000')
   }
   else {
-    console.log("file already exists! Try deleting contacts.csv and running this file again")
+    console.log("file already exists! Try deleting both generated zip files and running this file again")
   }
 };
 

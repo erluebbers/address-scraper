@@ -1,0 +1,19 @@
+{
+  "name": "address-scraper",
+  "version": "1.0.0",
+  "description": "dose challenge",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/erluebbers/address-scraper.git"
+  },
+  "author": "Erik Luebbers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erluebbers/address-scraper/issues"
+  },
+  "homepage": "https://github.com/erluebbers/address-scraper#readme"
+}

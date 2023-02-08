@@ -18,7 +18,7 @@ First, download the files/repo and install the dependencies (ensuring you have n
 npm install
 ```
 
-check the answer by running the app.js file in node
+check the answer by running the app.js file in node from the command line
 
 ```bash
 node app.js
@@ -26,8 +26,8 @@ node app.js
 
 ## Output
 
-If run correctly, it will generate a **zipCount.csv** file that has the correct answer and can be downloaded. PLEASE NOTE there is also a rawZip.csv file generated when you run the file. This can be ignored.
+If run correctly, it will generate a **SUMMARYCOUNT.csv** file that has the correct answer and can be downloaded directly to your computer. PLEASE NOTE there is also a rawZip.csv file generated when you run the file. This can be ignored.
 
-The output zipCount CSV will be in the top-level of directory.
+The output SUMMARYCOUNT CSV will be in the top-level of directory.
 
-If you try to run it more than once, you get an console log message telling you the file already exists.
+If you try to run it more than once, you get an console log message telling you the file already exists and you will need to delete both rawZip.csv and SUMMARYCOUNT.csv to run the file again.

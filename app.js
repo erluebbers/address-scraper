@@ -19,7 +19,7 @@ function compileZipStorage(csvPath) {
       }
     });
 
-    reader.on("close", resolve())
+    reader.on("close", resolve)
   })
 }
 
@@ -30,8 +30,8 @@ async function createSummaryCount() {
   }
 
   let csvContent = ''; // create csv string and add each zip code and count to it with a line break between each one 
-  Object.entries(storage).forEach(row => {
-      csvContent += row.join(',') + '\n';
+  Object.entries(storage).forEach(zip => {
+    csvContent += zip.join(',') + '\n';
   })
   writeFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent); // create csv file with heads and append info
 };

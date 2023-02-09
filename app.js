@@ -6,12 +6,12 @@ let storage = {};
 
 function compileZipStorage(csvPath) {
   return new Promise((resolve, reject) => {
-    const stream = createReadStream(csvPath);
+    const stream = createReadStream(csvPath); 
     const reader = createInterface({ input: stream });
 
     reader.on("line", row => {
-      let splitRow = row.split(",")
-      if (storage[splitRow[7]]) {
+      let splitRow = row.split(",") // shovel unique zip codes into storage hash table and count instances
+      if (storage[splitRow[7]]) { 
         storage[splitRow[7]] ++;
       }
       else {
@@ -26,15 +26,16 @@ function compileZipStorage(csvPath) {
 
 async function createSummaryCount() {
   for (let i = 0; i < arguments.length; i++) {
-    await compileZipStorage(arguments[i])
+    await compileZipStorage(arguments[i]) // loop through arguments (files) to compile the zip code storage hash table
   }
 
-  let csvContent = '';
+  let csvContent = ''; // create csv string and add each zip code and count to it with a line break between each one 
   Object.entries(storage).forEach(row => {
       csvContent += row.join(',') + '\n';
   })
-  writeFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent);
+  writeFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent); // create csv file with heads and append info
 };
+
 
 createSummaryCount(
   "./assets/Group01.csv",

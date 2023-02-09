@@ -26,7 +26,7 @@ node app.js
 
 ## Output
 
-If run correctly, it will generate a **SUMMARYCOUNT.csv** file that has the target outcome and can be downloaded directly to your computer. The output SUMMARYCOUNT CSV will be in the top-level of directory.
+If run correctly, it will generate a **SUMMARYCOUNT.csv** file that has the target outcome and can be downloaded directly to your computer. The output SUMMARYCOUNT csv will be in the top-level of directory.
 
 ## Completion Notes
 

@@ -1,63 +1,39 @@
-import { createReadStream,appendFileSync,existsSync } from "fs";
+import { createReadStream,writeFileSync } from "fs";
 import { createInterface } from "readline";
 
-function compileRawZips(csvPath) {
-    let data = []
+let storage = {};
+
+
+function compileZipStorage(csvPath) {
+  return new Promise((resolve, reject) => {
     const stream = createReadStream(csvPath);
     const reader = createInterface({ input: stream });
 
     reader.on("line", row => {
       let splitRow = row.split(",")
-      data.push(splitRow[7]) // Push Zip code from each provided csv row into data array
-    });
-
-    reader.on("close", () => {
-      let csvContent = '';
-      for (let i = 0; i < data.length; i++) {
-        csvContent += data[i] + '\n';
-      };
-      appendFileSync("./rawZips.csv", csvContent); // Turn data array into csv of raw zip codes from all docs
-    })
-}
-
-
-function sortZipCSV(csvPath) {
-    let countStorage = {} // Create hash table of zip code values and associated customer counts
-    const stream = createReadStream(csvPath);
-    const reader = createInterface({ input: stream });
-
-    reader.on("line", row => {
-      let stringRow = row.toString();
-      if (countStorage[stringRow]) {
-        countStorage[stringRow] += 1;
+      if (storage[splitRow[7]]) {
+        storage[splitRow[7]] ++;
       }
       else {
-        countStorage[stringRow] = 1;
+        storage[splitRow[7]] = 1;
       }
     });
 
-    reader.on("close", () => {
-      let csvContent = '';
-      Object.entries(countStorage).forEach(row => {
-        csvContent += row.join(',') + '\n';
-      })
-      appendFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent); // Convert Storage table into final csv summary doc
-    })
+    reader.on("close", resolve())
+  })
 }
 
 
-function createSummaryCount() {
-  if (!existsSync("./rawZips.csv") && !existsSync("./SUMMARYCOUNT.csv")) {
-    for (let i = 0; i < arguments.length; i++) {
-      compileRawZips(arguments[i])
-    }
-    setTimeout(() => {
-      sortZipCSV("./rawzips.csv");
-    }, '2000')
+async function createSummaryCount() {
+  for (let i = 0; i < arguments.length; i++) {
+    await compileZipStorage(arguments[i])
   }
-  else {
-    console.log("file already exists! Try deleting both generated zip files and running this file again")
-  }
+
+  let csvContent = '';
+  Object.entries(storage).forEach(row => {
+      csvContent += row.join(',') + '\n';
+  })
+  writeFileSync("./SUMMARYCOUNT.csv", "Zip_Code,Customer_Count\n" + csvContent);
 };
 
 createSummaryCount(
